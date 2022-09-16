@@ -1,25 +1,29 @@
 package job4j_todo.store;
 
 import job4j_todo.model.Task;
+import liquibase.pro.packaged.T;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
 public class TaskStore {
     private final SessionFactory sf;
 
-    public Task addTask(Task task) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        session.save(task);
-        session.getTransaction().commit();
-        session.close();
-        return task;
+    public Optional<Task> addTask(Task task) {
+        if (Optional.of(task).isPresent()) {
+            Session session = sf.openSession();
+            session.beginTransaction();
+            session.save(task);
+            session.getTransaction().commit();
+            session.close();
+        }
+        return Optional.empty();
     }
 
     public boolean replaceTask(Task task) {
@@ -82,16 +86,19 @@ public class TaskStore {
         return result;
     }
 
-    public Task findTaskById(int id) {
+    public Optional<Task> findTaskById(int id) {
         Session session = sf.openSession();
         session.beginTransaction();
         Task result = (Task) session.createQuery(
                 "from job4j_todo.model.Task t where t.id = :fId")
                 .setParameter("fId", id)
                 .uniqueResult();
+        if (Optional.of(result).isPresent()) {
+            return Optional.of(result);
+        }
         session.getTransaction().commit();
         session.close();
-        return result;
+        return Optional.empty();
     }
 
     public List<Task> findAllTasks() {
