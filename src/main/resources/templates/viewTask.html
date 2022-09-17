@@ -32,16 +32,10 @@
                 <div class="card-body">
                     <div class="card-body">
                         <form>
-                        <a th:href="@{|/formUpdateTask/${task.id}|}">
-                            <i class="fa fa-edit">Редактировать</i>
-                        </a>
                             <a th:text="${task.description}"></a>
-                        </form>
-                    </div>
-                    <div class="card-body">
-                        <form th:action="@{/deleteTask}" method="POST" th:object="${task}" enctype="multipart/form-data">
-                            <input type="hidden" name="id" th:field="*{id}"/>
-                            <button type="submit" class="btn btn-primary">Удалить задачу</button>
+                            <a th:href="@{|/formUpdateTask/${task.id}|}">
+                                <i class="fa fa-edit">Редактировать</i>
+                            </a>
                         </form>
                     </div>
                     <div class="card-body">

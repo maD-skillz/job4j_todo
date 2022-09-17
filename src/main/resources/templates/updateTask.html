@@ -38,6 +38,12 @@
                         <button type="submit" class="btn btn-primary">Редактировать</button>
                     </form>
                 </div>
+                <div class="card-body">
+                    <form th:action="@{/deleteTask}" method="POST" th:object="${task}" enctype="multipart/form-data">
+                        <input type="hidden" name="id" th:field="*{id}"/>
+                        <button type="submit" class="btn btn-primary">Удалить задачу</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

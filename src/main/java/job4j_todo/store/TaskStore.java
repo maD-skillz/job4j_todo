@@ -1,7 +1,6 @@
 package job4j_todo.store;
 
 import job4j_todo.model.Task;
-import liquibase.pro.packaged.T;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,14 +15,12 @@ public class TaskStore {
     private final SessionFactory sf;
 
     public Optional<Task> addTask(Task task) {
-        if (Optional.of(task).isPresent()) {
             Session session = sf.openSession();
             session.beginTransaction();
             session.save(task);
             session.getTransaction().commit();
             session.close();
-        }
-        return Optional.empty();
+        return Optional.of(task);
     }
 
     public boolean replaceTask(Task task) {
@@ -93,12 +90,9 @@ public class TaskStore {
                 "from job4j_todo.model.Task t where t.id = :fId")
                 .setParameter("fId", id)
                 .uniqueResult();
-        if (Optional.of(result).isPresent()) {
-            return Optional.of(result);
-        }
         session.getTransaction().commit();
         session.close();
-        return Optional.empty();
+        return Optional.of(result);
     }
 
     public List<Task> findAllTasks() {
