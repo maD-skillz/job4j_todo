@@ -11,7 +11,8 @@ import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
-public class TaskStore {
+public class TaskStore implements AutoCloseable {
+
     private final SessionFactory sf;
 
     public Optional<Task> addTask(Task task) {
@@ -104,5 +105,10 @@ public class TaskStore {
         session.getTransaction().commit();
         session.close();
         return result;
+    }
+
+    @Override
+    public void close() throws Exception {
+
     }
 }
