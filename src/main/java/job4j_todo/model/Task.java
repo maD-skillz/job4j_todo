@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 public class Task implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @EqualsAndHashCode.Include
     private String description;

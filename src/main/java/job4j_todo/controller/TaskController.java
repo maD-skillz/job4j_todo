@@ -78,8 +78,7 @@ public class TaskController {
 
     @PostMapping("/setDoneTask")
     public String setDoneTask(@ModelAttribute Task task) {
-        task.setDone(true);
-        taskService.updateIfDone(task, task.isDone());
+        taskService.updateIfDone(task);
         return "redirect:/index";
     }
 

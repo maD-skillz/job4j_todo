@@ -108,7 +108,7 @@ public class TaskStore implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
-
+    public void close() {
+        sf.close();
     }
 }
