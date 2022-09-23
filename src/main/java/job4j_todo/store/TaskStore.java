@@ -62,6 +62,18 @@ public class TaskStore implements AutoCloseable {
         return result;
     }
 
+    public boolean setTaskDone(Task task) {
+        Session session = sf.openSession();
+        session.beginTransaction();
+        int result = session.createQuery(
+                "update job4j_todo.model.Task t set t.done = true where t.id = :fId")
+                .setParameter("fId", task.getId())
+                .executeUpdate();
+        session.getTransaction();
+        session.close();
+        return result > 0;
+    }
+
     public List<Task> findTaskByDoneTrue() {
         Session session = sf.openSession();
         session.beginTransaction();

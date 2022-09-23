@@ -27,8 +27,7 @@ public class TaskService {
     }
 
     public boolean updateIfDone(Task task) {
-        task.setDone(true);
-        return store.replaceTask(task);
+        return store.setTaskDone(task);
     }
 
     public boolean delete(int id) {
