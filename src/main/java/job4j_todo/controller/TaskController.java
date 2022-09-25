@@ -1,6 +1,7 @@
 package job4j_todo.controller;
 
 import job4j_todo.model.Task;
+import job4j_todo.model.User;
 import job4j_todo.service.TaskService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -97,13 +99,25 @@ public class TaskController {
     }
 
     @GetMapping("/undone")
-    public String undone(Model model) {
+    public String undone(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        model.addAttribute("user", user);
         model.addAttribute("undone", taskService.findUndone());
         return "undone";
     }
 
     @GetMapping("/done")
-    public String done(Model model) {
+    public String done(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        model.addAttribute("user", user);
         model.addAttribute("done", taskService.findDone());
         return "done";
     }
