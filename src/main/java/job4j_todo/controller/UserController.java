@@ -20,7 +20,6 @@ public class UserController {
 
     private final UserService userService;
 
-
     @GetMapping("/createUser")
     public String createUser(Model model) {
         model.addAttribute("users", userService.findAllUsers());
@@ -30,12 +29,7 @@ public class UserController {
     @GetMapping("/formAddUser")
     public String formAddUser(Model model, @RequestParam(name = "fail", required = false)
     Boolean fail, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.checkUser(session));
         model.addAttribute("users", userService.findAllUsers());
         model.addAttribute("fail", fail != null);
         return "addUser";
@@ -43,19 +37,17 @@ public class UserController {
 
     @GetMapping("/users")
     public String users(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.checkUser(session));
         model.addAttribute("users", userService.findAllUsers());
         return "users";
     }
 
     @PostMapping("/createUser")
     public String createUser(@ModelAttribute User user) {
-        userService.add(user);
+        Optional<User> regUser = userService.add(user);
+        if (regUser.isEmpty()) {
+            return "redirect:/loginPage?fail=true";
+        }
         return "redirect:/loginPage";
     }
 
@@ -83,4 +75,5 @@ public class UserController {
         session.invalidate();
         return "redirect:/loginPage";
     }
+
 }

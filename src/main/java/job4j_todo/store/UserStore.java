@@ -52,16 +52,16 @@ public class UserStore implements AutoCloseable {
         return result > 0;
     }
 
-    public List<User> findUserByName(String key) {
+    public Optional<User> findUserByLogin(String key) {
         Session session = sf.openSession();
         session.beginTransaction();
-        List<User> result = session.createQuery(
-                        "from job4j_todo.model.User t where t.name like :fName")
-                .setParameter("fName", key)
-                .list();
+        User result = (User) session.createQuery(
+                        "from job4j_todo.model.User t where t.login like :fLogin")
+                .setParameter("fLogin", key)
+                .uniqueResult();
         session.getTransaction().commit();
         session.close();
-        return result;
+        return Optional.of(result);
     }
 
     public Optional<User> findUserByLoginAndPwd(String login, String password) {

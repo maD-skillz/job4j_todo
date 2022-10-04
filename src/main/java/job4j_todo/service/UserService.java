@@ -5,6 +5,7 @@ import job4j_todo.store.UserStore;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,15 @@ import java.util.Optional;
 public class UserService {
 
     private final UserStore userStore;
+
+    public final User checkUser(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        return user;
+    }
 
     public Optional<User> add(User user) {
        return userStore.addUser(user);
@@ -28,6 +38,10 @@ public class UserService {
 
     public Optional<User> findUserById(int id) {
         return userStore.findUserById(id);
+    }
+
+    public Optional<User> findUserByLogin(String login) {
+        return userStore.findUserByLogin(login);
     }
 
 }
