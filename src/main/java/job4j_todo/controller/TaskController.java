@@ -2,6 +2,7 @@ package job4j_todo.controller;
 
 import job4j_todo.model.Task;
 import job4j_todo.model.User;
+import job4j_todo.service.CheckUser;
 import job4j_todo.service.TaskService;
 import job4j_todo.service.UserService;
 import lombok.AllArgsConstructor;
@@ -22,8 +23,6 @@ import java.util.Optional;
 public class TaskController {
 
     private final TaskService taskService;
-
-    private final UserService userService;
 
     @GetMapping("/addTask")
     public String addTask(Model model) {
@@ -103,14 +102,14 @@ public class TaskController {
 
     @GetMapping("/undone")
     public String undone(Model model, HttpSession session) {
-        model.addAttribute("user", userService.checkUser(session));
+        model.addAttribute("user", CheckUser.userCheck(session));
         model.addAttribute("undone", taskService.findUndone());
         return "undone";
     }
 
     @GetMapping("/done")
     public String done(Model model, HttpSession session) {
-        model.addAttribute("user", userService.checkUser(session));
+        model.addAttribute("user", CheckUser.userCheck(session));
         model.addAttribute("done", taskService.findDone());
         return "done";
     }

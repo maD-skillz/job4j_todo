@@ -1,6 +1,7 @@
 package job4j_todo.controller;
 
 import job4j_todo.model.User;
+import job4j_todo.service.CheckUser;
 import job4j_todo.service.TaskService;
 import job4j_todo.service.UserService;
 import job4j_todo.store.UserStore;
@@ -18,11 +19,9 @@ public class IndexController {
 
     private final TaskService taskService;
 
-    private final UserService userService;
-
     @GetMapping("/index")
     public String index(Model model, HttpSession session) {
-        model.addAttribute("user", userService.checkUser(session));
+        model.addAttribute("user", CheckUser.userCheck(session));
         model.addAttribute("tasks", taskService.findAll());
         return "index";
     }

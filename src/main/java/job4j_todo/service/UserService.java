@@ -15,15 +15,6 @@ public class UserService {
 
     private final UserStore userStore;
 
-    public final User checkUser(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        return user;
-    }
-
     public Optional<User> add(User user) {
        return userStore.addUser(user);
     }

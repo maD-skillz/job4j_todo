@@ -1,6 +1,7 @@
 package job4j_todo.controller;
 
 import job4j_todo.model.User;
+import job4j_todo.service.CheckUser;
 import job4j_todo.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class UserController {
     @GetMapping("/formAddUser")
     public String formAddUser(Model model, @RequestParam(name = "fail", required = false)
     Boolean fail, HttpSession session) {
-        model.addAttribute("user", userService.checkUser(session));
+        model.addAttribute("user", CheckUser.userCheck(session));
         model.addAttribute("users", userService.findAllUsers());
         model.addAttribute("fail", fail != null);
         return "addUser";
@@ -37,7 +38,7 @@ public class UserController {
 
     @GetMapping("/users")
     public String users(Model model, HttpSession session) {
-        model.addAttribute("user", userService.checkUser(session));
+        model.addAttribute("user", CheckUser.userCheck(session));
         model.addAttribute("users", userService.findAllUsers());
         return "users";
     }
