@@ -14,16 +14,17 @@ import java.util.Set;
 public class AuthFilter implements Filter {
 
     private final Set<String> allowedPages = Set.of(
-            "localhost:8080/loginPage",
-            "localhost:8080/login",
-            "localhost:8080/createUser",
-            "localhost:8080/users",
-            "localhost:8080/formAddUser",
-            "localhost:8080/addUser"
+            "/loginPage",
+            "/login",
+            "/createUser",
+            "/users",
+            "/formAddUser",
+            "/addUser",
+            "/loginPage?fail=true"
     );
 
     private boolean checkAllowedPages(String page) {
-        return allowedPages.stream().anyMatch(s -> s.contains(page));
+        return allowedPages.stream().anyMatch(s -> s.endsWith(page));
     }
 
     @Override
