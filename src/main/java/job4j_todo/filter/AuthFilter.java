@@ -20,7 +20,8 @@ public class AuthFilter implements Filter {
             "/users",
             "/formAddUser",
             "/addUser",
-            "/loginPage?fail=true"
+            "/loginPage?fail=true",
+            "addUser?fail=true"
     );
 
     private boolean checkAllowedPages(String page) {

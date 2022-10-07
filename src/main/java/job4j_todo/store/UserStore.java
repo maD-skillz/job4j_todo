@@ -64,7 +64,7 @@ public class UserStore implements AutoCloseable {
         return Optional.of(result);
     }
 
-    public Optional<User> findUserByLoginAndPwd(String login, String password) {
+    public User findUserByLoginAndPwd(String login, String password) {
         Session session = sf.openSession();
         session.beginTransaction();
         User result = (User) session.createQuery(
@@ -74,7 +74,7 @@ public class UserStore implements AutoCloseable {
                 .uniqueResult();
         session.getTransaction().commit();
         session.close();
-        return Optional.of(result);
+        return result;
     }
 
     public Optional<User> findUserById(int id) {
