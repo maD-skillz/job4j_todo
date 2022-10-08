@@ -46,10 +46,10 @@ public class UserController {
 
     @PostMapping("/createUser")
     public String createUser(@ModelAttribute User user) {
-        User userDb = userService.findUserByLoginAndPwd(
+        Optional<User> userDb = userService.findUserByLoginAndPwd(
                 user.getLogin(), user.getPassword()
         );
-        if (userDb != null) {
+        if (userDb.isPresent()) {
             return "redirect:/createUser?fail=true";
         }
         userService.add(user);
@@ -64,14 +64,14 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@ModelAttribute User user, HttpServletRequest req) {
-        User userDb = userService.findUserByLoginAndPwd(
+        Optional<User> userDb = userService.findUserByLoginAndPwd(
                 user.getLogin(), user.getPassword()
         );
-        if (userDb == null) {
+        if (userDb.isEmpty()) {
             return "redirect:/loginPage?fail=true";
         }
         HttpSession session = req.getSession();
-        session.setAttribute("user", userDb);
+        session.setAttribute("user", userDb.get());
         return "redirect:/index";
     }
 

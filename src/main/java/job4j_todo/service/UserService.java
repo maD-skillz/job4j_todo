@@ -5,7 +5,6 @@ import job4j_todo.store.UserStore;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +18,7 @@ public class UserService {
        return userStore.addUser(user);
     }
 
-    public User findUserByLoginAndPwd(String login, String password) {
+    public Optional<User> findUserByLoginAndPwd(String login, String password) {
         return userStore.findUserByLoginAndPwd(login, password);
     }
 

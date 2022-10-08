@@ -55,23 +55,23 @@ public class UserStore implements AutoCloseable {
     public Optional<User> findUserByLogin(String key) {
         Session session = sf.openSession();
         session.beginTransaction();
-        User result = (User) session.createQuery(
+        Optional<User> result = session.createQuery(
                         "from job4j_todo.model.User t where t.login like :fLogin")
                 .setParameter("fLogin", key)
-                .uniqueResult();
+                .uniqueResultOptional();
         session.getTransaction().commit();
         session.close();
-        return Optional.of(result);
+        return result;
     }
 
-    public User findUserByLoginAndPwd(String login, String password) {
+    public Optional<User> findUserByLoginAndPwd(String login, String password) {
         Session session = sf.openSession();
         session.beginTransaction();
-        User result = (User) session.createQuery(
+        Optional<User> result = session.createQuery(
                         "from job4j_todo.model.User t where t.login = :fLogin and t.password = :fPwd")
                 .setParameter("fLogin", login)
                 .setParameter("fPwd", password)
-                .uniqueResult();
+                .uniqueResultOptional();
         session.getTransaction().commit();
         session.close();
         return result;
@@ -80,13 +80,13 @@ public class UserStore implements AutoCloseable {
     public Optional<User> findUserById(int id) {
         Session session = sf.openSession();
         session.beginTransaction();
-        User result = (User) session.createQuery(
+        Optional<User> result = session.createQuery(
                         "from job4j_todo.model.User t where t.id = :fId")
                 .setParameter("fId", id)
-                .uniqueResult();
+                .uniqueResultOptional();
         session.getTransaction().commit();
         session.close();
-        return Optional.of(result);
+        return result;
     }
 
     public List<User> findAllUsers() {
