@@ -1,6 +1,7 @@
 package job4j_todo.service;
 
 import job4j_todo.model.User;
+import job4j_todo.store.UserRepository;
 import job4j_todo.store.UserStore;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,24 +15,26 @@ public class UserService {
 
     private final UserStore userStore;
 
+    private final UserRepository userRepository;
+
     public Optional<User> add(User user) {
-       return userStore.addUser(user);
+       return userRepository.create(user);
     }
 
     public Optional<User> findUserByLoginAndPwd(String login, String password) {
-        return userStore.findUserByLoginAndPwd(login, password);
+        return userRepository.findByLikeLoginAndPwd(login, password);
     }
 
     public List<User> findAllUsers() {
-        return userStore.findAllUsers();
+        return userRepository.findAll();
     }
 
     public Optional<User> findUserById(int id) {
-        return userStore.findUserById(id);
+        return userRepository.findById(id);
     }
 
     public Optional<User> findUserByLogin(String login) {
-        return userStore.findUserByLogin(login);
+        return userRepository.findByLogin(login);
     }
 
 }
