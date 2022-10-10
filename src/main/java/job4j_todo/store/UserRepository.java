@@ -84,13 +84,10 @@ public class UserRepository {
      * @return Optional or user.
      */
     public Optional<User> findByLikeLoginAndPwd(String login, String pwd) {
-        for (User user : findAll()) {
-            if (user.getLogin().equals(login) && user.getPassword().equals(pwd)) {
-                return Optional.of(user);
-
-            }
-        }
-        return Optional.empty();
+        return crudRepository.optional(
+                "from User where login like :fLogin and password like :fPwd", User.class,
+                Map.of("fLogin", login, "fPwd", pwd)
+        );
     }
 
     /**
