@@ -24,6 +24,8 @@ public class TaskController {
 
     private final TaskService taskService;
 
+    private final UserService userService;
+
     @GetMapping("/addTask")
     public String addTask(Model model) {
         model.addAttribute("tasks", taskService.findAll());
@@ -94,8 +96,10 @@ public class TaskController {
     }
 
     @PostMapping("/createTask")
-    public String createTask(@ModelAttribute Task task) {
+    public String createTask(@ModelAttribute Task task, HttpSession session) {
+        User user = (User) session.getAttribute("user");
         task.setCreated(Timestamp.valueOf(LocalDateTime.now()));
+        task.setUser(user);
         taskService.add(task);
         return "redirect:/index";
     }

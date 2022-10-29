@@ -1,6 +1,7 @@
 package job4j_todo.store;
 
 import job4j_todo.model.Task;
+import job4j_todo.model.User;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -117,6 +118,30 @@ public class TaskStore implements AutoCloseable {
         session.getTransaction().commit();
         session.close();
         return result;
+    }
+
+    public Optional<Task> findTaskByUserId(int id) {
+        Session session = sf.openSession();
+        session.beginTransaction();
+        Task result = (Task) session.createQuery(
+                        "select description, created, done from job4j_todo.model.Task t where t.user.id = :fId")
+                .setParameter("fId", id)
+                .uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return Optional.of(result);
+    }
+
+    public Optional<User> findUserByTaskId(int id) {
+        Session session = sf.openSession();
+        session.beginTransaction();
+        User result = (User) session.createQuery(
+                        "select user.name from job4j_todo.model.Task t where t.id = :fId")
+                .setParameter("fId", id)
+                .uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return Optional.of(result);
     }
 
     @Override

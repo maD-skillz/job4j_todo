@@ -1,10 +1,8 @@
 package job4j_todo.controller;
 
-import job4j_todo.model.User;
+
 import job4j_todo.service.CheckUser;
 import job4j_todo.service.TaskService;
-import job4j_todo.service.UserService;
-import job4j_todo.store.UserStore;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +20,7 @@ public class IndexController {
     @GetMapping("/index")
     public String index(Model model, HttpSession session) {
         model.addAttribute("user", CheckUser.userCheck(session));
+        model.addAttribute("users", taskService.findAllUsers());
         model.addAttribute("tasks", taskService.findAll());
         return "index";
     }

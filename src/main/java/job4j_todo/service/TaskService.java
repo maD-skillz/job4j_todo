@@ -14,6 +14,8 @@ public class TaskService {
 
     private final TaskStore store;
 
+    private final UserService userService;
+
     public Optional<Task> findById(int id) {
         return store.findTaskById(id);
     }
@@ -49,4 +51,19 @@ public class TaskService {
     public List<Task> findUndone() {
         return store.findTaskByDoneFalse();
     }
+
+    public Optional<Task> findByUserId(int id) {
+        return store.findTaskByUserId(id);
+    }
+
+    public List<Task> findAllUsers() {
+        List<Task> tasks = store.findAllTasks();
+        tasks.forEach(
+                task -> task.setUser(
+                        userService.findUserById(task.getUser().getId()).get()
+                )
+        );
+        return tasks;
+    }
+
 }

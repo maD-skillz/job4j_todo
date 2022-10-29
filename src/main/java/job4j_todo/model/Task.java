@@ -25,4 +25,8 @@ public class Task implements Serializable {
 
     private boolean done;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }
