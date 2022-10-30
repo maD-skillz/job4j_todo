@@ -1,7 +1,6 @@
 package job4j_todo.store;
 
 import job4j_todo.model.Task;
-import job4j_todo.model.User;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -29,7 +28,7 @@ public class TaskStore implements AutoCloseable {
         Session session = sf.openSession();
         session.beginTransaction();
         int result = session.createQuery(
-                "update job4j_todo.model.Task t set t.description = :newDesc, t.done = :newDone where t.id = :fId")
+                "update Task t set t.description = :newDesc, t.done = :newDone where t.id = :fId")
                 .setParameter("newDesc", task.getDescription())
                 .setParameter("newDone", task.isDone())
                 .setParameter("fId", task.getId())
@@ -43,7 +42,7 @@ public class TaskStore implements AutoCloseable {
         Session session = sf.openSession();
         session.beginTransaction();
         int result = session.createQuery(
-                "delete from job4j_todo.model.Task t where t.id = :fId")
+                "delete from Task t where t.id = :fId")
                 .setParameter("fId", id)
                 .executeUpdate();
         session.getTransaction().commit();
@@ -55,7 +54,7 @@ public class TaskStore implements AutoCloseable {
         Session session = sf.openSession();
         session.beginTransaction();
         List<Task> result = session.createQuery(
-                "from job4j_todo.model.Task t where t.description like :fDesc")
+                "from Task t where t.description like :fDesc")
                 .setParameter("fDesc", key)
                 .list();
         session.getTransaction().commit();
@@ -67,7 +66,7 @@ public class TaskStore implements AutoCloseable {
         Session session = sf.openSession();
         session.beginTransaction();
         int result = session.createQuery(
-                "update job4j_todo.model.Task t set t.done = true where t.id = :fId")
+                "update Task t set t.done = true where t.id = :fId")
                 .setParameter("fId", task.getId())
                 .executeUpdate();
         session.getTransaction();
@@ -79,7 +78,7 @@ public class TaskStore implements AutoCloseable {
         Session session = sf.openSession();
         session.beginTransaction();
         List<Task> result = session.createQuery(
-                        "from job4j_todo.model.Task t where t.done is true")
+                        "from Task t where t.done is true")
                 .list();
         session.getTransaction().commit();
         session.close();
@@ -90,7 +89,7 @@ public class TaskStore implements AutoCloseable {
         Session session = sf.openSession();
         session.beginTransaction();
         List<Task> result = session.createQuery(
-                        "from job4j_todo.model.Task t where t.done is false")
+                        "from Task t where t.done is false")
                 .list();
         session.getTransaction().commit();
         session.close();
@@ -101,7 +100,7 @@ public class TaskStore implements AutoCloseable {
         Session session = sf.openSession();
         session.beginTransaction();
         Task result = (Task) session.createQuery(
-                "from job4j_todo.model.Task t where t.id = :fId")
+                "from Task t where t.id = :fId")
                 .setParameter("fId", id)
                 .uniqueResult();
         session.getTransaction().commit();
@@ -113,7 +112,18 @@ public class TaskStore implements AutoCloseable {
         Session session = sf.openSession();
         session.beginTransaction();
         List<Task> result = session.createQuery(
-                "from job4j_todo.model.Task"
+                "from Task"
+        ).list();
+        session.getTransaction().commit();
+        session.close();
+        return result;
+    }
+
+    public List<Task> findAllUsersAndTasks() {
+        Session session = sf.openSession();
+        session.beginTransaction();
+        List<Task> result = session.createQuery(
+                "from Task t left join User u on u.id = user_id"
         ).list();
         session.getTransaction().commit();
         session.close();
@@ -124,19 +134,7 @@ public class TaskStore implements AutoCloseable {
         Session session = sf.openSession();
         session.beginTransaction();
         Task result = (Task) session.createQuery(
-                        "select description, created, done from job4j_todo.model.Task t where t.user.id = :fId")
-                .setParameter("fId", id)
-                .uniqueResult();
-        session.getTransaction().commit();
-        session.close();
-        return Optional.of(result);
-    }
-
-    public Optional<User> findUserByTaskId(int id) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        User result = (User) session.createQuery(
-                        "select user.name from job4j_todo.model.Task t where t.id = :fId")
+                        "select description, created, done from Task t where t.user.id = :fId")
                 .setParameter("fId", id)
                 .uniqueResult();
         session.getTransaction().commit();

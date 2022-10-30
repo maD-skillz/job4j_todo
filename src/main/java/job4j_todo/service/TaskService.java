@@ -57,13 +57,7 @@ public class TaskService {
     }
 
     public List<Task> findAllUsers() {
-        List<Task> tasks = store.findAllTasks();
-        tasks.forEach(
-                task -> task.setUser(
-                        userService.findUserById(task.getUser().getId()).get()
-                )
-        );
-        return tasks;
+        return store.findAllUsersAndTasks();
     }
 
 }

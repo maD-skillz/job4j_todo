@@ -41,26 +41,18 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Список незавршенных задач</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Описание</th>
+                        <th scope="col">Имя пользователя</th>
+                        <th scope="col">Дата создания</th>
+                        <th scope="col">Выполнено?</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="und: ${undone}">
                         <td th:text="${und.id}"></td>
-                        <td>
-                            <a th:href="@{|/formUpdateTask/${und.id}|}">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <span th:text="${und.description}"></span>
-                            <span th:if="${und.done}">
-                                <i class="fa fa-check-square-o"></i>
-                            </span>
-                            <span th:if="${!und.done}">
-                                <i class="fa fa-square-o"></i>
-                            </span>
-                        </td>
                         <td th:text="${und.description}"></td>
+                        <td th:text="${und.user.name}"></td>
                         <td th:text="${und.created}"></td>
                         <td th:text="${und.done}"></td>
                     </tr>

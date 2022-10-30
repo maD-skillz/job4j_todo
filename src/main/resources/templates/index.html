@@ -42,13 +42,16 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Список задач</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Имя пользователя</th>
+                    <th scope="col">Дата создания</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="task: ${tasks}">
-                    <td th:text="${task.id}"></td>
+
+                    <td th:text="${task.id}">"Id"</td>
                     <td>
                         <a th:href="@{|/formViewTask/${task.id}|}">
                             <i class="fa fa-edit"></i>

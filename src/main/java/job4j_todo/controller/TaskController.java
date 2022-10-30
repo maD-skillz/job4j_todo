@@ -4,7 +4,6 @@ import job4j_todo.model.Task;
 import job4j_todo.model.User;
 import job4j_todo.service.CheckUser;
 import job4j_todo.service.TaskService;
-import job4j_todo.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +22,6 @@ import java.util.Optional;
 public class TaskController {
 
     private final TaskService taskService;
-
-    private final UserService userService;
 
     @GetMapping("/addTask")
     public String addTask(Model model) {
