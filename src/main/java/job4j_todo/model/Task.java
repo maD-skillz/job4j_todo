@@ -9,10 +9,6 @@ import java.sql.Timestamp;
 @Data
 @Table(name = "tasks")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@NonNull
-@Getter
-@Setter
-@ToString
 public class Task implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +24,9 @@ public class Task implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "priority_id")
+    private Priority priority;
 
 }

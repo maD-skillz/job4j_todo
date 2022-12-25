@@ -42,6 +42,14 @@ public class CrudRepository {
         return tx(command);
     }
 
+    public <T> List<T> listOf(String query, Class<T> model, SessionFactory sf) {
+        Session session = sf.openSession();
+        var rsl = session.createQuery(query, model)
+                .getResultList();
+        session.close();
+        return rsl;
+    }
+
     public <T> Optional<T> optional(String query, Class<T> cl, Map<String, Object> args) {
         Function<Session, Optional<T>> command = session -> {
             var sq = session

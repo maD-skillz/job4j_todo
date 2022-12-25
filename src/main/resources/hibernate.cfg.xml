@@ -18,5 +18,6 @@
 
         <mapping class="job4j_todo.model.Task" />
         <mapping class="job4j_todo.model.User" />
+        <mapping class="job4j_todo.model.Priority" />
     </session-factory>
 </hibernate-configuration>

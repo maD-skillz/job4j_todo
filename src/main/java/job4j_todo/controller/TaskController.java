@@ -1,8 +1,10 @@
 package job4j_todo.controller;
 
+import job4j_todo.model.Priority;
 import job4j_todo.model.Task;
 import job4j_todo.model.User;
 import job4j_todo.service.CheckUser;
+import job4j_todo.service.PriorityService;
 import job4j_todo.service.TaskService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,26 +25,29 @@ public class TaskController {
 
     private final TaskService taskService;
 
+
     @GetMapping("/addTask")
     public String addTask(Model model) {
-        model.addAttribute("tasks", taskService.findAll());
+        model.addAttribute("priorities", taskService.allPriorities());
         return "addTask";
     }
 
     @GetMapping("/createTask")
     public String createTask(Model model) {
-        model.addAttribute("tasks", taskService.findAll());
+        model.addAttribute("priorities", taskService.allPriorities());
         return "addTask";
     }
 
     @GetMapping("/formAddTask")
     public String formAddTask(Model model) {
-        model.addAttribute("tasks", taskService.findAll());
+        model.addAttribute("priorities", taskService.allPriorities());
         return "addTask";
     }
 
     @GetMapping("/updateTask")
     public String updateTask(@ModelAttribute Task task) {
+        Priority priority = taskService.findByPriorityById(task.getPriority().getId()).get();
+        task.setPriority(priority);
         taskService.update(task);
         return "redirect:/index";
     }
@@ -51,6 +56,7 @@ public class TaskController {
     public String formUpdateTask(Model model, @PathVariable("taskId") int id) {
         Optional<Task> taskDbId = taskService.findById(id);
         model.addAttribute("task", taskDbId.get());
+        model.addAttribute("priorities", taskService.allPriorities());
         return "updateTask";
     }
 
@@ -96,7 +102,9 @@ public class TaskController {
     public String createTask(@ModelAttribute Task task, HttpSession session) {
         User user = (User) session.getAttribute("user");
         task.setCreated(Timestamp.valueOf(LocalDateTime.now()));
+        Priority priority = taskService.findByPriorityById(task.getPriority().getId()).get();
         task.setUser(user);
+        task.setPriority(priority);
         taskService.add(task);
         return "redirect:/index";
     }

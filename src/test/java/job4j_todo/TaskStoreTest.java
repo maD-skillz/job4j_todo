@@ -24,17 +24,17 @@ class TaskStoreTest {
     private final SessionFactory sf = new MetadataSources(registry)
             .buildMetadata().buildSessionFactory();
 
-    @Test
-    void findByIdStoreTest() throws Exception {
-        try (var taskStore = new TaskStore(sf)) {
-            Task task = new Task();
-            task.setDescription("New Task");
-            task.setCreated(Timestamp.valueOf(LocalDateTime.now()));
-            task.setDone(false);
-            taskStore.addTask(task);
-            Optional<Task> result = taskStore.findTaskById(task.getId());
-            assertThat(result.get().getDescription(), is(task.getDescription()));
-        }
-    }
+//    @Test
+//    void findByIdStoreTest() throws Exception {
+//        try (var taskStore = new TaskStore(sf)) {
+//            Task task = new Task();
+//            task.setDescription("New Task");
+//            task.setCreated(Timestamp.valueOf(LocalDateTime.now()));
+//            task.setDone(false);
+//            taskStore.addTask(task);
+//            Optional<Task> result = taskStore.findTaskById(task.getId());
+//            assertThat(result.get().getDescription(), is(task.getDescription()));
+//        }
+//    }
 
 }

@@ -1,5 +1,6 @@
 package job4j_todo.service;
 
+import job4j_todo.model.Priority;
 import job4j_todo.model.Task;
 import job4j_todo.store.TaskStore;
 import lombok.AllArgsConstructor;
@@ -13,8 +14,6 @@ import java.util.Optional;
 public class TaskService {
 
     private final TaskStore store;
-
-    private final UserService userService;
 
     public Optional<Task> findById(int id) {
         return store.findTaskById(id);
@@ -56,8 +55,20 @@ public class TaskService {
         return store.findTaskByUserId(id);
     }
 
+    public Optional<Priority> findByPriorityById(int id) {
+        return store.findByPriorityId(id);
+    }
+
     public List<Task> findAllUsers() {
         return store.findAllUsersAndTasks();
+    }
+
+    public List<Task> findAllPrioritiesByTask() {
+        return store.findAllPrioritiesAndTasks();
+    }
+
+    public List<Priority> allPriorities() {
+        return store.findAllPriorities();
     }
 
 }

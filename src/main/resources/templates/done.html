@@ -45,6 +45,7 @@
                         <th scope="col">Описание</th>
                         <th scope="col">Имя пользователя</th>
                         <th scope="col">Дата создания</th>
+                        <th scope="col">Приоритет задания</th>
                         <th scope="col">Выполнено?</th>
                     </tr>
                     </thead>
@@ -54,6 +55,7 @@
                         <td th:text="${d.description}"></td>
                         <td th:text="${d.user.name}"></td>
                         <td th:text="${d.created}"></td>
+                        <td th:text="${d.priority.name}"></td>
                         <td th:text="${d.done}"></td>
                     </tr>
                     </tbody>
